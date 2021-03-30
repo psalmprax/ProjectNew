@@ -33,10 +33,7 @@ def calculate_simple_moving_total(dataframe):
 
 
 def calculate_simple_current_users(dataframe):
-    w = window(
-        timeColumn="date_time",
-        windowDuration="60 seconds",
-        slideDuration="20 seconds")
+
     # Milliseconds to UTC
     return (df.selectExpr("CAST(value AS STRING) AS json")
             .select(from_json(col("json"), data_model_schema).alias("data"))
@@ -47,8 +44,6 @@ def calculate_simple_current_users(dataframe):
             .select(col("count(id)").alias("total_users"))
             )
 
-            #.withWatermark("date_time", "20 seconds")
-            #.select(col("sum(total_users)").alias("total_users"))
 if __name__ == "__main__":
     s = Source()
     s.sc.setLogLevel("ERROR")

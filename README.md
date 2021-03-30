@@ -4,6 +4,7 @@ A Python task for analysing real-time data ingestion using Kafka and Spark Struc
 
 To run the producer and kafka services:
 `install docker and docker-compose on the server`
+and 
 `docker-compose up -d --build`
 
 To run the consumer from spark-master:

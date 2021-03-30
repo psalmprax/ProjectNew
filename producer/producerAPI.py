@@ -6,9 +6,12 @@ LOGGER = set_logger("repository_logger")
 
 
 class Publisher:
+
+    def __init__(self):
+        pass
+
     def get_json_api(self, page):
         get_request = requests.get(page)
-        # print(get_request.json())
         assert get_request.status_code == 200, "Request not successful"
         return get_request.json(), get_request.status_code
 
@@ -19,7 +22,7 @@ class Publisher:
                 "first_name": data.get("first_name"),
                 "last_name": data.get("last_name"),
                 "email": data.get("email"),
-                "ip_address": data.get("ip_address"),
+                "gender": data.get("gender"),
                 "ip_address": data.get("ip_address"),
                 "date": data.get("date"),
                 "country": data.get("country"),

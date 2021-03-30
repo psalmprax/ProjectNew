@@ -5,7 +5,7 @@ services:
     image: confluentinc/cp-zookeeper
     container_name: zookeeper
     networks:
-      - crypto-network
+      - spark-network
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -19,7 +19,7 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - crypto-network
+      - spark-network
     ports:
       - 9092:9092
       - 30001:30001
@@ -44,7 +44,7 @@ services:
     links:
       - kafka
     networks:
-      - crypto-network
+      - spark-network
     environment:
       JMX_PORT: 30001
       JMX_HOST: kafka
@@ -55,7 +55,7 @@ services:
     build: ./tools/prometheus
     container_name: prometheus
     networks:
-      - crypto-network
+      - spark-network
     ports:
       - 9090:9090
 
@@ -63,7 +63,7 @@ services:
     image: bde2020/spark-master:2.2.2-hadoop2.7
     container_name: spark-master
     networks:
-      - crypto-network
+      - spark-network
     volumes:
       - ./connectors:/connectors
       - ./:/scripts/
@@ -77,7 +77,7 @@ services:
     image: bde2020/spark-worker:2.2.2-hadoop2.7
     container_name: spark-worker-1
     networks:
-      - crypto-network
+      - spark-network
     depends_on:
       - spark-master
     ports:
@@ -93,8 +93,8 @@ services:
     depends_on:
       - kafka
     networks:
-      - crypto-network
+      - spark-network
 
 networks:
-  crypto-network:
+  spark-network:
     driver: "bridge"

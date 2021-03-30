@@ -42,13 +42,13 @@ def calculate_simple_current_users(dataframe):
             .select(from_json(col("json"), data_model_schema).alias("data"))
             .select("data.*", (col("data.timestamp_logger") / 1000)
                     .cast("timestamp").alias("date_time"))
-            .withWatermark("date_time", "20 seconds")
-            .groupBy(col("country"), w)
+            .groupBy(col("user"))
             .agg(count("id"))
             .select(col("count(id)").alias("total_users"))
             )
 
-
+            #.withWatermark("date_time", "20 seconds")
+            #.select(col("sum(total_users)").alias("total_users"))
 if __name__ == "__main__":
     s = Source()
     s.sc.setLogLevel("ERROR")
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     query_user = (total_user_values
                   .writeStream
                   .option("truncate", "false")
-                  .outputMode("append")
+                  .outputMode("complete")
                   .format("console")
                   .start()
                   )

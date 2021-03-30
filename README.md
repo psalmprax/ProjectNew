@@ -27,6 +27,7 @@ To run the consumer from spark-master:
 "ip_address": data.get("ip_address"),
 "date": data.get("date"),
 "country": data.get("country"),
+"user": "user",
 "timestamp_logger": current_milli_time()
 }
 ```
